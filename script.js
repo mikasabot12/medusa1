@@ -19,3 +19,4 @@ document.getElementById("connectWallet").addEventListener("click", async () => {
         console.error("Connection failed:", error);
     }
 });
+ 
