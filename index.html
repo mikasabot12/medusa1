@@ -4,15 +4,52 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>My Wallet App</title>
-    <link rel="stylesheet" href="style.css"> <!-- اطمینان حاصل کنید که این فایل وجود دارد -->
+    <link rel="stylesheet" href="style.css">
     <script src="https://cdn.ethers.io/lib/ethers-5.2.umd.min.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/@walletconnect/web3-provider@1.5.0/dist/umd/index.min.js"></script>
+    <script src="https://unpkg.com/@walletconnect/client@2.0.0/dist/umd/index.min.js"></script>
 </head>
 <body>
     <h1>Connect Wallet</h1>
     <button id="connectWallet">Connect Wallet</button>
     <p id="walletAddress"></p>
     
-    <script src="script.js"></script> <!-- اطمینان حاصل کنید که این فایل وجود دارد -->
+    <script>
+        document.getElementById("connectWallet").addEventListener("click", async () => {
+            const connector = new WalletConnect.Client({
+                projectId: "668795322eb142309aab4f21e891f375", // شناسه پروژه Infura
+                // optional: additional configuration
+            });
+
+            if (!connector.connected) {
+                // نمایش QR code و باز کردن پنجره اتصال
+                await connector.createSession();
+            }
+
+            const uri = connector.uri;
+            // این URI را می‌توانید برای نمایش QR code استفاده کنید.
+            console.log(uri);
+
+            // در اینجا می‌توانید QR code را با استفاده از کتابخانه‌ای مانند qrcode.js نمایش دهید.
+            // (این مرحله به ایجاد QR Code بستگی دارد)
+
+            connector.on("connect", async (error, payload) => {
+                if (error) {
+                    throw error;
+                }
+
+                // فعال‌سازی provider
+                const { accounts } = payload.params[0];
+                document.getElementById("walletAddress").innerText = "Wallet Address: " + accounts[0];
+            });
+
+            connector.on("disconnect", (error, payload) => {
+                if (error) {
+                    throw error;
+                }
+
+                console.log("Disconnected", payload);
+            });
+        });
+    </script>
 </body>
 </html>
