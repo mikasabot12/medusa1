@@ -4,46 +4,15 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>My Wallet App</title>
-    <link rel="stylesheet" href="style.css"> <!-- اطمینان حاصل کنید که این فایل وجود دارد -->
-    <script src="https://cdn.jsdelivr.net/npm/ethers@5.6.9/dist/ethers.umd.min.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/@walletconnect/web3-provider@2.0.0/dist/umd/index.min.js"></script>
+    <link rel="stylesheet" href="style.css">
+    <script src="https://cdn.ethers.io/lib/ethers-5.2.umd.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@walletconnect/web3-provider@1.5.0/dist/umd/index.min.js"></script>
 </head>
 <body>
     <h1>Connect Wallet</h1>
     <button id="connectWallet">Connect Wallet</button>
     <p id="walletAddress"></p>
-    
-    <script>
-        document.getElementById("connectWallet").addEventListener("click", async (event) => {
-            event.preventDefault(); // جلوگیری از عملکرد پیش‌فرض لینک
-            console.log("Connecting to wallet..."); // برای عیب‌یابی
 
-            // ایجاد provider برای WalletConnect
-            const provider = new WalletConnectProvider({
-                projectId: "b787e615-f670-45e9-8e6b-58391abfc0cc=45201c1c80b4d8e9a836a99578778944d33fab7c8665a0a2acb2062eb7baefc6", // شناسه پروژه خود را اینجا وارد کنید
-                // chainId: 1 // ID شبکه (1 برای Ethereum Mainnet) - اگر نیاز دارید، این خط را اضافه کنید
-            });
-
-            // فعال کردن provider
-            try {
-                await provider.enable();
-                console.log("Provider enabled"); // برای عیب‌یابی
-            } catch (error) {
-                console.error("Failed to enable provider:", error);
-                return; // اگر در اینجا خطا بود، ادامه نده
-            }
-
-            const web3Provider = new ethers.providers.Web3Provider(provider);
-            const signer = web3Provider.getSigner();
-
-            try {
-                // گرفتن آدرس کیف پول
-                const address = await signer.getAddress();
-                document.getElementById("walletAddress").innerText = "Wallet Address: " + address;
-            } catch (error) {
-                console.error("Connection failed:", error);
-            }
-        });
-    </script>
+    <script src="script.js"></script>
 </body>
 </html>
