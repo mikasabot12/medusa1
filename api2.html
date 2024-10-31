@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Connect Wallet using WalletConnect v2</title>
+    <script src="https://cdn.jsdelivr.net/npm/@web3modal/standalone@2.2.1/dist/standalone.umd.min.js"></script>
+    <script src="https://cdn.ethers.io/lib/ethers-5.2.umd.min.js"></script>
+</head>
+<body>
+    <h1>Connect Wallet using WalletConnect v2</h1>
+    <button id="connectWallet">Connect Wallet</button>
+    <p id="walletAddress"></p>
+    <p id="balance"></p>
+
+    <script>
+        const projectId = "668795322eb142309aab4f21e891f375"; // شناسه Infura یا WalletConnect خود را اینجا وارد کنید
+        
+        const web3Modal = new Web3Modal({
+            projectId: projectId,
+            standaloneChains: ["eip155:1"], // شبکه اتریوم
+            walletConnectVersion: 2,        // اطمینان از استفاده نسخه 2 WalletConnect
+            themeMode: "dark"               // تنظیم تم رابط کاربری
+        });
+
+        async function connectWallet() {
+            try {
+                const provider = await web3Modal.connect(); // نمایش QR code
+                const web3Provider = new ethers.providers.Web3Provider(provider);
+                const signer = web3Provider.getSigner();
+
+                const address = await signer.getAddress();
+                document.getElementById("walletAddress").innerText = "Wallet Address: " + address;
+
+                const balance = await signer.getBalance();
+                const etherBalance = ethers.utils.formatEther(balance);
+                document.getElementById("balance").innerText = "Balance: " + etherBalance + " ETH";
+            } catch (error) {
+                console.error("Connection failed:", error);
+            }
+        }
+
+        document.getElementById("connectWallet").addEventListener("click", connectWallet);
+    </script>
+</body>
+</html>
