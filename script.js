@@ -1,4 +1,3 @@
-// ایجاد یک Web3Modal instance
 const providerOptions = {
     walletconnect: {
         package: WalletConnectProvider, // Required
