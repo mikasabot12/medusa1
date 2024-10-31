@@ -4,13 +4,8 @@ const providerOptions = {
         package: WalletConnectProvider, // Required
         options: {
             qrcode: true, // نمایش QR کد
-            infuraId: "668795322eb142309aab4f21e891f375" // شناسه Infura
-        }
-    },
-    torus: {
-        package: Torus, // Required
-        options: {
-            // Options for Torus
+            infuraId: "668795322eb142309aab4f21e891f375", // شناسه Infura
+            chainId: 1 // تنظیم شبکه به Mainnet (می‌توانید این را بر اساس نیاز خود تغییر دهید)
         }
     }
 };
